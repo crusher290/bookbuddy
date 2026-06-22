@@ -1,16 +1,22 @@
-from book import Book
-
-class Audiobook(Book)
-    def __init__(self, title: str, author: str, genre: str, total_pages: int, duration, narrator):
-        super().__init__(title, author, genre, total_pages)
-        self.duration = duration 
+from .book import Book
+from typing import Optional
+class AudioBook(Book):
+    """AudioBook class extending Book"""
+    
+    def __init__(self, title: str, author: str, genre: str, pages: int,
+                 narrator: str = "", duration_minutes: int = 0,
+                 added_date: Optional[str] = None):
+        super().__init__(title, author, genre, pages, added_date)
         self.narrator = narrator
+        self.duration_minutes = duration_minutes
+        self.book_type = "AudioBook"
     
-    def get_info(self) -> str:
-        return super().get_info()
-    
-    def get_proggres(self) -> float:
-        return super().get_proggres()
-    
-    def update_proggres(self, page_read: int):
-        return super().update_proggres(page_read)
+    def get_info(self):
+        """Return AudioBook information with additional fields"""
+        info = super().get_info()
+        info.update({
+            'book_type': self.book_type,
+            'narrator': self.narrator,
+            'duration_minutes': self.duration_minutes
+        })
+        return info
