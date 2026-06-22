@@ -1,42 +1,42 @@
-from readable import Readable
 from datetime import datetime
+from typing import List, Optional
+from .readable import Readable
+from .reading_log import Reading_log
 
 class Book(Readable):
-    def __init__(self, title:str, author:str, genre:str, total_pages:int):
+    def __init__(self, title: str, author: str, genre: str, pages: int, 
+                 added_date: Optional[str] = None):
         self.title = title
         self.author = author
         self.genre = genre
-        self.total_pages = total_pages
-        self.date_added = datetime.now().strftime("%y/%m/%d,%H:%M:%S")
-        self.__current_page = 0
-
+        self.pages = pages
+        self.added_date = added_date or datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.reading_logs: List[Reading_log] = []
+        self.is_completed = False
+        self.total_pages_read = 0
     
-    def get_info(self) -> str:
-        return f"{self.title} by {self.author} - [genre : {self.genre}] - ({self.total_pages} pages)"
+    def get_info(self):
+        return {
+            'title': self.title,
+            'author': self.author,
+            'genre': self.genre,
+            'pages': self.pages,
+            'added_date': self.added_date,
+            'completed': self.is_completed,
+            'total_pages_read': self.total_pages_read,
+            'progress': self.get_progress()
+        }
     
-    def get_proggres(self) -> float:
-        if self.__current_page == 0:
+    def get_progress(self):
+        if self.pages == 0:
             return 0.0
-        proggres = (self.__current_page / self.total_pages) * 100
-        return f"{proggres:,.2f}"
-        
+        return round((self.total_pages_read / self.pages) * 100, 1)
     
-    def update_proggres(self, page_read:int):
-        if page_read < 0 :
-            raise ValueError("You Can't enter negitive number.")
-        self.__current_page += page_read
-        if self.__current_page > self.total_pages:
-            self.__current_page = self.total_pages
-
-
-
-
-
-b = Book("habits","ali","self-help",200)  
-
-print(b.get_info())
-
-b.update_proggres(101)
-
-print(b.get_proggres())
-
+    def add_reading_log(self, log: Reading_log):
+        self.reading_logs.append(log)
+        self.total_pages_read += log.pages_read
+        if self.total_pages_read >= self.pages:
+            self.is_completed = True
+    
+    def __str__(self):
+        return f"{self.title} by {self.author} ({self.genre})"
