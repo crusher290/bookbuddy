@@ -2,7 +2,7 @@ class BookBuddyError(Exception):
     pass
 
 
-class BookNotFoundError(BookBuddyError): # it will raised when a book not found
+class BookNotFoundError(BookBuddyError):
     def __init__(self, title: str = ""):
         self.title = title
         if title:
@@ -12,13 +12,13 @@ class BookNotFoundError(BookBuddyError): # it will raised when a book not found
         super().__init__(error_message)
 
 
-class InvalidLogError(BookBuddyError):# it wil raised when a readin_log is invalid
+class InvalidLogError(BookBuddyError):
     def __init__(self, message: str = "Invalid reading log entry"):
         self.message = message
         super().__init__(message)
 
 
-class FileOperationError(BookBuddyError): # it will raised when file operation fail
+class FileOperationError(BookBuddyError):
     def __init__(self, filename: str = "", message: str = ""):
         self.filename = filename
         if message:
@@ -28,19 +28,19 @@ class FileOperationError(BookBuddyError): # it will raised when file operation f
         super().__init__(error_message)
 
 
-class DataExportError(BookBuddyError): # it will raised when data export fails
+class DataExportError(BookBuddyError):
     def __init__(self, message: str = "Failed to export data"):
         self.message = message
         super().__init__(message)
 
 
-class DataImportError(BookBuddyError): # it will raised when data import fails
+class DataImportError(BookBuddyError): 
     def __init__(self, message: str = "Failed to import data"):
         self.message = message
         super().__init__(message)
 
 
-class ValidationError(BookBuddyError): # it will raised when data validation fails
+class ValidationError(BookBuddyError): 
     def __init__(self, field: str = "", message: str = ""):
         self.field = field
         if field and message:
