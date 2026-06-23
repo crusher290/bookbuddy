@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-class Reading_log:
+class Readinglog:
     def __init__(self, date: Optional[str]= None, notes:str="", pages_read:int=0):
         self.date = date or datetime.now().strftime("%Y/%m/%d | %H:%M")
         self.notes = notes

@@ -3,7 +3,7 @@ from abc import ABC , abstractmethod
 class Readable(ABC):
 
     @abstractmethod
-    def get_info(self) -> str:
+    def get_info(self) -> dict:
         ...
         
     @abstractmethod
